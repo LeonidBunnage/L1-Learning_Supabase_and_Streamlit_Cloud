@@ -74,46 +74,63 @@ supabase = create_client(
 ## Accessing the authentication users table with supabase commands
 ### With Confirm email off
 def sign_up_with_an_email_and_password_and_return_sign_up_response(email: str, password: str):
-    response = supabase.auth.sign_up(
-        {"email": email, "password": password}
-    )
-    st.write(response)
+    try:
+        response = supabase.auth.sign_up(
+            {"email": email, "password": password}
+        )
+        st.success("Successfully signed up!")
+        st.write(response)
+    except Exception as e:
+        st.error(f"Error during sign up: {str(e)}")
 
 def sign_in_with_an_email_and_password_and_return_sign_in_response(email: str, password: str):
-    response = supabase.auth.sign_in_with_password(
-        {"email": email, "password": password}
-    )
-    st.write(response)
+    try:
+        response = supabase.auth.sign_in_with_password(
+            {"email": email, "password": password}
+        )
+        st.success("Successfully signed in!")
+        st.write(response)
+    except Exception as e:
+        st.error(f"Error during sign in: {str(e)}")
 
 def sign_out_and_return_sign_out_response():
-    response = supabase.auth.sign_out()
-    st.write(response)
+    try:
+        response = supabase.auth.sign_out()
+        st.success("Successfully signed out!")
+        st.write(response)
+    except Exception as e:
+        st.error(f"Error during sign out: {str(e)}")
 
 def retrieve_user_session_and_return_user_session_response():
-    response = supabase.auth.get_session()
-    st.write(response)
+    try:
+        response = supabase.auth.get_session()
+        st.write(response)
+    except Exception as e:
+        st.error(f"Error retrieving session: {str(e)}")
 
 def get_whether_signed_in_and_which_email_signed_in_as():
-    if supabase.auth.get_session().user:
-        st.write(f"Signed in as {supabase.auth.get_session().user.email}")
-    st.write("Not signed in")
+    try:
+        if supabase.auth.get_session().user:
+            st.write(f"Signed in as {supabase.auth.get_session().user.email}")
+        st.write("Not signed in")
+    except Exception as e:
+        st.error(f"Error checking sign in status: {str(e)}")
 
 email = st.text_input("Enter your email: ")
-password = st.text_input("Enter your password: ")
+password = st.text_input("Enter your password: ", type="password")
 
-whether_to_sign_up = st.button("Do you want to sign up? (y/n): ")
-if whether_to_sign_up:
+whether_to_sign_up = st.button("Sign Up")
+if whether_to_sign_up and email and password:
     sign_up_with_an_email_and_password_and_return_sign_up_response(email, password)
 
-whether_to_sign_in = st.button("Do you want to sign in? (y/n): ")
-if whether_to_sign_in:
+whether_to_sign_in = st.button("Sign In")
+if whether_to_sign_in and email and password:
     sign_in_with_an_email_and_password_and_return_sign_in_response(email, password)
 
-whether_to_sign_out = st.button("Do you want to sign out? (y/n): ")
+whether_to_sign_out = st.button("Sign Out")
 if whether_to_sign_out:
     sign_out_and_return_sign_out_response()
 
-whether_to_get_whether_signed_in_and_which_email_signed_in_as = st.button("Do you want to get whether signed in and which email signed in as? (y/n): ")
+whether_to_get_whether_signed_in_and_which_email_signed_in_as = st.button("Check Sign In Status")
 if whether_to_get_whether_signed_in_and_which_email_signed_in_as:
-    status = get_whether_signed_in_and_which_email_signed_in_as()
-    st.write(status)
+    get_whether_signed_in_and_which_email_signed_in_as()
