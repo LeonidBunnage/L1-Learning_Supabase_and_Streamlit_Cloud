@@ -76,43 +76,43 @@ def sign_up_with_an_email_and_password_and_return_sign_up_response(email: str, p
     response = supabase.auth.sign_up(
         {"email": email, "password": password}
     )
-    return response
+    st.write(response)
 
 def sign_in_with_an_email_and_password_and_return_sign_in_response(email: str, password: str):
     response = supabase.auth.sign_in_with_password(
         {"email": email, "password": password}
     )
-    return response
+    st.write(response)
 
 def sign_out_and_return_sign_out_response():
     response = supabase.auth.sign_out()
-    return response
+    st.write(response)
 
 def retrieve_user_session_and_return_user_session_response():
     response = supabase.auth.get_session()
-    return response
+    st.write(response)
 
 def get_whether_signed_in_and_which_email_signed_in_as():
     if supabase.auth.get_session().user:
-        return f"Signed in as {supabase.auth.get_session().user.email}"
-    return "Not signed in"
+        st.write(f"Signed in as {supabase.auth.get_session().user.email}")
+    st.write("Not signed in")
 
 email = st.text_input("Enter your email: ")
 password = st.text_input("Enter your password: ")
 
 whether_to_sign_up = st.button("Do you want to sign up? (y/n): ")
 if whether_to_sign_up:
-    print(sign_up_with_an_email_and_password_and_return_sign_up_response(email, password))
+    sign_up_with_an_email_and_password_and_return_sign_up_response(email, password)
 
 whether_to_sign_in = st.button("Do you want to sign in? (y/n): ")
 if whether_to_sign_in:
-    print(sign_in_with_an_email_and_password_and_return_sign_in_response(email, password))
+    sign_in_with_an_email_and_password_and_return_sign_in_response(email, password)
 
 whether_to_sign_out = st.button("Do you want to sign out? (y/n): ")
 if whether_to_sign_out:
-    print(sign_out_and_return_sign_out_response())
+    sign_out_and_return_sign_out_response()
 
 whether_to_get_whether_signed_in_and_which_email_signed_in_as = st.button("Do you want to get whether signed in and which email signed in as? (y/n): ")
 if whether_to_get_whether_signed_in_and_which_email_signed_in_as:
     status = get_whether_signed_in_and_which_email_signed_in_as()
-    print(status)
+    st.write(status)
