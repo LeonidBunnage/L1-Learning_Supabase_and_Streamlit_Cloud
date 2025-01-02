@@ -110,9 +110,11 @@ def retrieve_user_session_and_return_user_session_response():
 
 def get_whether_signed_in_and_which_email_signed_in_as():
     try:
-        if supabase.auth.get_session().user:
-            st.write(f"Signed in as {supabase.auth.get_session().user.email}")
-        st.write("Not signed in")
+        session = supabase.auth.get_session()
+        if session and session.user:
+            st.write(f"Signed in as {session.user.email}")
+        else:
+            st.write("Not signed in")
     except Exception as e:
         st.error(f"Error checking sign in status: {str(e)}")
 
