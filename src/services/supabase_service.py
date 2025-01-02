@@ -65,10 +65,11 @@ from supabase import create_client, Client
 
 # Supabase With Streamlit Cloud Testing
 import streamlit as st
-## Creating the client
-url: str = st.secrets["SUPABASE_URL"]
-key: str = st.secrets["SUPABASE_KEY"]
-supabase: Client = create_client(url, key)
+
+supabase = create_client(
+    supabase_url=st.secrets["SUPABASE_URL"],
+    supabase_key=st.secrets["SUPABASE_KEY"]
+)
 
 ## Accessing the authentication users table with supabase commands
 ### With Confirm email off
