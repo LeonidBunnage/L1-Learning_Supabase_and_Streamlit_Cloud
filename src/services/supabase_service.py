@@ -94,6 +94,7 @@ def sign_in_with_an_email_and_password_and_return_sign_in_response(email: str, p
         response = supabase.auth.sign_in_with_password(
             {"email": email, "password": password}
         )
+        get_user_details()
         st.success("Successfully signed in!")
         st.write("Debug: Sign-in response:", response)  # Debug information
         # Check and display session information
