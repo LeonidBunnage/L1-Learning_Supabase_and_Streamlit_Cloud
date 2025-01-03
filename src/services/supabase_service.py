@@ -66,9 +66,15 @@ from supabase import create_client, Client
 # Supabase With Streamlit Cloud Testing
 import streamlit as st
 
+# # Cloud
+# supabase = create_client(
+#     supabase_url=st.secrets["SUPABASE_URL"],
+#     supabase_key=st.secrets["SUPABASE_KEY"]
+# )
+# Local
 supabase = create_client(
-    supabase_url=st.secrets["SUPABASE_URL"],
-    supabase_key=st.secrets["SUPABASE_KEY"]
+    supabase_url=os.environ.get("SUPABASE_URL"),
+    supabase_key=os.environ.get("SUPABASE_KEY")
 )
 
 ## Accessing the authentication users table with supabase commands
@@ -89,9 +95,14 @@ def sign_in_with_an_email_and_password_and_return_sign_in_response(email: str, p
             {"email": email, "password": password}
         )
         st.success("Successfully signed in!")
-        st.write(response)
+        st.write("Debug: Sign-in response:", response)  # Debug information
+        # Check and display session information
+        session = supabase.auth.get_session()
+        st.write("Debug: Session after sign-in:", session)  # Debug information
+        return response
     except Exception as e:
         st.error(f"Error during sign in: {str(e)}")
+        st.write("Debug: Exception occurred during sign in:", str(e))  # Debug information
 
 def sign_out_and_return_sign_out_response():
     try:
@@ -121,16 +132,17 @@ def get_whether_signed_in_and_which_email_signed_in_as():
 def get_user_details():
     try:
         session = supabase.auth.get_session()
+        st.write("Debug: Current session:", session)  # Debug information
         if session and session.user:
             response = supabase.auth.get_user()
-            st.write("Debug: User details response:", response)
+            st.write("Debug: User details response:", response)  # Debug information
             return response
         else:
             st.error("User is not authenticated. Please sign in first.")
             return None
     except Exception as e:
         st.error(f"Error getting user details: {str(e)}")
-        st.write("Debug: Exception occurred:", str(e))
+        st.write("Debug: Exception occurred:", str(e))  # Debug information
         return None
 
 email = st.text_input("Enter your email: ")
@@ -151,3 +163,5 @@ if whether_to_sign_out:
 whether_to_get_whether_signed_in_and_which_email_signed_in_as = st.button("Check Sign In Status")
 if whether_to_get_whether_signed_in_and_which_email_signed_in_as:
     get_user_details()
+
+# to run: streamlit run src/services/supabase_service.py
