@@ -94,12 +94,10 @@ def sign_in_with_an_email_and_password_and_return_sign_in_response(email: str, p
         response = supabase.auth.sign_in_with_password(
             {"email": email, "password": password}
         )
-        get_user_details()
+        st.session_state['session'] = supabase.auth.get_session()  # Store session in session_state
         st.success("Successfully signed in!")
         st.write("Debug: Sign-in response:", response)  # Debug information
-        # Check and display session information
-        session = supabase.auth.get_session()
-        st.write("Debug: Session after sign-in:", session)  # Debug information
+        st.write("Debug: Session after sign-in:", st.session_state['session'])  # Debug information
         return response
     except Exception as e:
         st.error(f"Error during sign in: {str(e)}")
@@ -132,7 +130,7 @@ def get_whether_signed_in_and_which_email_signed_in_as():
 
 def get_user_details():
     try:
-        session = supabase.auth.get_session()
+        session = st.session_state.get('session')  # Retrieve session from session_state
         st.write("Debug: Current session:", session)  # Debug information
         if session and session.user:
             response = supabase.auth.get_user()
