@@ -120,14 +120,18 @@ def get_whether_signed_in_and_which_email_signed_in_as():
 
 def get_user_details():
     try:
-        response = supabase.auth.get_user()
-        st.write("Debug: User details response:", response)
-        return response
+        session = supabase.auth.get_session()
+        if session and session.user:
+            response = supabase.auth.get_user()
+            st.write("Debug: User details response:", response)
+            return response
+        else:
+            st.error("User is not authenticated. Please sign in first.")
+            return None
     except Exception as e:
         st.error(f"Error getting user details: {str(e)}")
         st.write("Debug: Exception occurred:", str(e))
         return None
-
 
 email = st.text_input("Enter your email: ")
 password = st.text_input("Enter your password: ", type="password")
