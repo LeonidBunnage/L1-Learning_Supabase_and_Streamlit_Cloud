@@ -121,9 +121,11 @@ def get_whether_signed_in_and_which_email_signed_in_as():
 def get_user_details():
     try:
         response = supabase.auth.get_user()
+        st.write("Debug: User details response:", response)
         return response
     except Exception as e:
         st.error(f"Error getting user details: {str(e)}")
+        st.write("Debug: Exception occurred:", str(e))
         return None
 
 
