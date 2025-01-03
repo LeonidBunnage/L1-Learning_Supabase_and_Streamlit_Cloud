@@ -144,4 +144,4 @@ if whether_to_sign_out:
 
 whether_to_get_whether_signed_in_and_which_email_signed_in_as = st.button("Check Sign In Status")
 if whether_to_get_whether_signed_in_and_which_email_signed_in_as:
-    get_whether_signed_in_and_which_email_signed_in_as()
+    get_user_details()
