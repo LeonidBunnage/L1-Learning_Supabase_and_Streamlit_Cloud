@@ -118,6 +118,15 @@ def get_whether_signed_in_and_which_email_signed_in_as():
     except Exception as e:
         st.error(f"Error checking sign in status: {str(e)}")
 
+def get_user_details():
+    try:
+        response = supabase.auth.get_user()
+        st.write("User details:")
+        st.write(response)
+    except Exception as e:
+        st.error(f"Error getting user details: {str(e)}")
+
+
 email = st.text_input("Enter your email: ")
 password = st.text_input("Enter your password: ", type="password")
 
