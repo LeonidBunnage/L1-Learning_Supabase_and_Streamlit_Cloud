@@ -66,16 +66,16 @@ from supabase import create_client, Client
 # Supabase With Streamlit Cloud Testing
 import streamlit as st
 
-# # Cloud
-# supabase = create_client(
-#     supabase_url=st.secrets["SUPABASE_URL"],
-#     supabase_key=st.secrets["SUPABASE_KEY"]
-# )
-# Local
+# Cloud
 supabase = create_client(
-    supabase_url=os.environ.get("SUPABASE_URL"),
-    supabase_key=os.environ.get("SUPABASE_KEY")
+    supabase_url=st.secrets["SUPABASE_URL"],
+    supabase_key=st.secrets["SUPABASE_KEY"]
 )
+# # Local
+# supabase = create_client(
+#     supabase_url=os.environ.get("SUPABASE_URL"),
+#     supabase_key=os.environ.get("SUPABASE_KEY")
+# )
 
 ## Accessing the authentication users table with supabase commands
 ### With Confirm email off
